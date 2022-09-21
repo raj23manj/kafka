@@ -38,4 +38,12 @@
         - if the key!=null, then all messages for that key will always go to same partition(hashing)
         - A key are typically sent if you need message ordering for a  specific field(ex: truck_id) 3:24
     - Anatomy => anatomy image in images
-
+    - Kafka Message Serializer
+      - Messages get created by Kafka Message Serializer
+      - Kafka only accepts bytes as an input from producers and sends bytes out as an output to consumers
+      - Message Serialization means transforming objects/data into bytes
+      - They are used on the value and the key
+      - Kafka producers come with common serializers
+        - string, int, float, json, Avro, protobuf
+      - Kafka Message Key Hashing
+        -
