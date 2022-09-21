@@ -78,4 +78,23 @@
       - when a consumer in a group has processed data received from kafka, it should be periodically commiting the offsets(the kafka broker will write to `__consumer_offsets`, not the group itself)
       - if a consumer dies, it will be able to read back from where it left off thanks to the committed consumer offsets!
     - Delivery Semantics for consumers
+      - atleast once
+      - atmost once
+      - excatly once
       - Delivery Semantics for consumers.png
+
+* Broker and Topics
+  * Brokers
+    - A broker is just a server
+    - A kafka Cluster is composed of multiple brokers(servers)
+    - Each broker is identified with its ID(integer) in a cluster
+    - Each broker contains certain topic partiotions, data will be distributed across all brokers
+    - After connecting to any broker(called a bootstrap broker), you will be connected to the entire cluster and know how to do it aswell(Kafkas clients have smart mechanics for that)
+    - So we dont need to know in advance all the brokers in the cluster, we need to know how to connect to one broker in the cluster then the clients will automatically connect to the rest.
+    - A Good number to get started is 3 brokers, but some big clusters have over 100 brokers.
+  * How brokers, topics & partitions are releated
+    - broker,topic,partions related.png
+    - See the image, this is called horizontal scaling. There more brokers and partitions we add the more the data is going to be spread out across the cluster.
+    - The broker don't have all the data, but have data they should only have
+  * Broker Discovery Mechanism
+    - kafka broker discovery.png
