@@ -47,3 +47,35 @@
         - string, int, float, json, Avro, protobuf
       - Kafka Message Key Hashing
         -
+
+* Consumers & Deserialization
+  * Consumers
+    - Consumers read data from a topic(identified by a name) - pull model
+    - Consumers automatically know which broker to read from
+    - in case of broker failures, consumers know how to recover
+    - Data is read in order from low to high offset within each partitions
+  * Consumer Deserializer
+    - The consure must know in advance the format of key and the value
+    - Deserializer indicates how to transfor bytes into objects/data
+    - They are used on the value and the key of the message
+    - Common Deserializers
+      - string, json, Avro, float, protobuf
+    - The serialization/deserialization type must not change durin a topic lifecycle(create a new topic instead)
+
+* Consumer Groups & Consumer Offsets
+  * Consumer Groups
+    - All the consumers in an application read data as a consumer groups
+    - Each Consumer within a group reads from exclusive partitions
+    - This way a group is reading kafka topic as a whole
+    - what if too many consumers in a consumer group more than partitions?
+      - if you have more consumers than partitions, some consumers will be inactive
+    - Multiple Consumers on one topic
+      - in kafka it is acceptable to have multiple consumer groups on the same topic
+      - To create distinct consumer groups, use the consumer property group.id
+    - Consumer Ofssets
+      - kafka stores the offsets at which a consumer group has been reading
+      - The offsets committed are in kafka topic named `__consumer_offsets`
+      - when a consumer in a group has processed data received from kafka, it should be periodically commiting the offsets(the kafka broker will write to `__consumer_offsets`, not the group itself)
+      - if a consumer dies, it will be able to read back from where it left off thanks to the committed consumer offsets!
+    - Delivery Semantics for consumers
+      - Delivery Semantics for consumers.png
