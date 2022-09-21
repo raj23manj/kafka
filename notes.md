@@ -1,3 +1,4 @@
+# https://www.conduktor.io/kafka
 # Theory
 * Topics, Partitions and offsets
   * Topics
@@ -98,3 +99,19 @@
     - The broker don't have all the data, but have data they should only have
   * Broker Discovery Mechanism
     - kafka broker discovery.png
+
+* Topic Replication
+  * Topic Replication factor
+    - Topics should have a replication factor > 1(usually between 2 & 3), but mostly 3
+    - topic-replication-factor.png
+  * Concept of leader for a partition
+    - if data is replicated fast enough, each replica is going to be called `ISR(in-sync replica)`
+    - in the image starred are leader replicas
+    - leader-for-a-partition.png
+  * Default Producer & consumer behavior with leaders
+    - kafka producers can only write to the leader broker for a partition
+    - kafka Consumers by default will read from leader broker for a partition
+  * Kafka Consumer Replica Fetching
+    - since kafka 2.4, it is possible to configure consumers to read from the closest replica
+    - This may help improve latency, and also decrease network costs if using cloud
+    - kafka-consumers-replica-fetching.png
