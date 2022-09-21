@@ -1,5 +1,8 @@
 # https://www.conduktor.io/kafka
+# course order
+  - order-sereis-to-read.png
 # Theory
+* Kafka is a pub/sub model
 * Topics, Partitions and offsets
   * Topics
     - a particular stream of data
@@ -115,3 +118,13 @@
     - since kafka 2.4, it is possible to configure consumers to read from the closest replica
     - This may help improve latency, and also decrease network costs if using cloud
     - kafka-consumers-replica-fetching.png
+
+* Producer Acknowledgements(acks)
+  - kafka producers can choose to receive acknowledgement of data writes was successful
+    - acks = 0, producer won't wait for acknowledgement (possible data loss)
+    - acks = 1, producer will wait for leader acknowledgement(limited data loss)
+    - acks = all, leader + all replicas acknowledgement(no data loss)
+  - Kafka Topic Durability
+    - kafka topic durability.png
+
+* Zookeeper
