@@ -21,7 +21,7 @@
     - Important notes
       - once the data is written to a partition, it cannot be changed(immutability)
       - Data is kept only for a limited time(default is one week - configurable)
-      - Offset only have a meanning for a specific partition
+      - Offset only have a meaning for a specific partition
         - Ex offset 3 in partition 0 dosen't represent the same data as offset 3 in partiotion 1
         - Offsets are not re-used even if the previous messages have been deleted
       - Order is guaranteed only within a partitoin(not across partitions)
@@ -31,16 +31,16 @@
 * Producers and Message Keys
   * Producers
     - Producers write data to topics(which are made of partitions)
-    - Producers Know to which topic partition to write to and which kafka broker hast it
+    - Producers Know to which topic partition to write to and which kafka broker has it
     - in case of kafka broker failures, Producers will automatically recover
     - Load balancing in this case, producers will send data across all partitions based on some mechanism and this is why kafka scales. Because we have many partitions within a topic and each partitoin is going to recieve a message from one or more producers
     - Message Keys
       - The message produced by the producer contains data itself and we can send a key in the data.
-      - Producsrs can choose to send a key with the message(string, number, binary, ...etc)
+      - Producers can choose to send a key with the message(string, number, binary, ...etc)
       - Two cases
         - If the key=null, data is sent round robin(Partition0, Partition1 ...)(load balancing is achieved)
         - if the key!=null, then all messages for that key will always go to same partition(hashing)
-        - A key are typically sent if you need message ordering for a  specific field(ex: truck_id) 3:24
+        - A key are typically sent if you need message ordering for a specific field(ex: truck_id) 3:24
     - Anatomy => anatomy image in images
     - Kafka Message Serializer
       - Messages get created by Kafka Message Serializer
@@ -76,7 +76,7 @@
     - Multiple Consumers on one topic
       - in kafka it is acceptable to have multiple consumer groups on the same topic
       - To create distinct consumer groups, use the consumer property group.id
-    - Consumer Ofssets
+    - Consumer Offsets
       - kafka stores the offsets at which a consumer group has been reading
       - The offsets committed are in kafka topic named `__consumer_offsets`
       - when a consumer in a group has processed data received from kafka, it should be periodically commiting the offsets(the kafka broker will write to `__consumer_offsets`, not the group itself)
@@ -128,3 +128,25 @@
     - kafka topic durability.png
 
 * Zookeeper
+  - Zookeeper manages brokers(keeps a list of them)
+  - Zookeeper helps in perfoeming leader election for partitions
+  - zookeeper sends notifications to kafka in case of changes(e.g new topic, broker dies, broker comes up, delete topics, etc ...)
+  - kafka 2.x can't work without zookeeper
+  - kafka 3.x can work without zookeeper(KI-500) - using kafka raft instead(KRaft)
+  - kafka 4.x will not have zookeeper
+  - Zookeeper by design operates with an odd number of servers(1,3,5,7) not more than 7
+  - Zookeeper has a leader(writes) the rest of the servers are followers(reads)
+  - (Zookeeper does not store consumer offsets with kafka > v0.10)
+  - zookeeper-cluster.png
+  - `Should you use zookeeper?`
+    -  `with kafka Brokers?`
+      - Yes, until kafka 4.0 is out while waitin for kafka without zookeeper to be production ready
+    - `with kafka clients ?`
+      - over time, the kafka clients and CLI have been migrated to leverage the brokers as a connection endpoint instead of zookeeper
+      - since kafka 0.10 consumers store offset in kafka and zookeeper and must not connect to Zookeeper as it is deperecated.
+      - since kafka 2.2, the kafka-topics.sh CLI command references kafka brokers and not zookeeper for topic management(creation, deletion, etc...) and the zookeeper CLI argument is deprecated.
+      - All the API's and commands that were previously leveraging zookeeper are migrated to use kadka instead, so that when the cluster are migrated to be without zookeeper, the change is invisible to clients.
+      - Zookeeper is also less secure that kafka, and `therefore ports should only be openend to allow traffic from kafka brokers and not kafka clients`
+      - `Therefore, to be a great modern day kafka developer, never use zookeeper as a  configuration in your kafka clients, and other programs that connect to kafka.`
+
+* Kafka KRaft - Removing zookeeper
