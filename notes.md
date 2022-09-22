@@ -1,4 +1,8 @@
 # https://www.conduktor.io/kafka
+# https://www.youtube.com/watch?v=I32hmY4diFY  => youtube
+Kafka’s connect api = E & L in streaming ETL
+Kafka’s streams api = The T in streaming ETL
+
 # course order
   - order-sereis-to-read.png
   - complete-kafka-zookeeper-architecture.png
@@ -212,6 +216,60 @@
     - Consume from the beginning of the topic
     - Show both key and values in the output
 
+
   * Kafka Consumer Groups
+    - learn about -- group parameter
+    - see how partitions read are divided amongst multiple CLI Consumers
+    - 3:26, if more than 1 consumers are started, then when producing msg it will be consumed by the consumer but not all at one, consumers will exclusively consume from particular partitions.
+    - broker with 3 partitions and 4 consumers, only 3 will be active and other one will be totally inactive. 5:12
+    - when start the consumer to read from begining, this will not read because the group would have committed offsets to the kafka 6:39
+    - If we start another group with different group name to consume, both consumers will recieve messages, because in both groups each consumer will be exclusively listening to one partition. 7:35
+
   * Kafka Consumer Groups CLI
+    - 2:30, see
+    ```
+      GROUP                TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID     HOST            CLIENT-ID
+      my-first-application first_topic     0          2               2               0               -               -               -
+      my-first-application first_topic     1          9               9               0               -               -               -
+      my-first-application first_topic     2          10              10              0               -               -               -
+
+      CURRENT-OFFSET(how much read)
+      LOG-END-OFFSET(what is the total length of the messages on the kafka server)
+      LAG (difference to be read)
+    ```
+    - after starting a producer and adding some message to specific topic and without starting the consumer just describe
+    ```
+      $ kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group my-first-application
+
+      Consumer group 'my-first-application' has no active members.
+
+      GROUP                TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID     HOST            CLIENT-ID
+      my-first-application first_topic     0          2               5               3               console-consumer-90afb1c2-0828-418a-a14a               -               -
+      my-first-application first_topic     1          9               12              3               console-consumer-90afb1c2-0828-418a-a14a               -               -
+      my-first-application first_topic     2          10              10              0               console-consumer-90afb1c2-0828-418a-a14a               -               -
+
+      // run the consumer on the topic again it will read the lag messages
+
+      $ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic --group my-first-application
+
+      meow
+      fasask
+      sss
+      dddoo
+      fff
+      aaa
+    ```
+    - consumers are spreading the reads, 4:49
+    - start a consumer without a group id, it will create a new consumer on its own. This will be temporary until the consuer is active, if killed it will be deleted. 5: 30
+      ```
+        $ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic --from-beginning
+
+        // o/p => will retrive all the messsage, but it will create a group on it own
+
+        $ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+
+        console-consumer-7453 // created a new group
+        my-first-application
+
+      ```
   * Quiz
