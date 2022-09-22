@@ -165,3 +165,21 @@
   - kraft-architecture.png
 * Theroy Round up
  - complete-kafka-zookeeper-architecture.png
+* see the quiz very good question
+  - n(replication factor) - 1
+
+* Starting Kafka
+  * starting kafka - a big challenge
+    - diff-os-setup.png
+    - kafka setup => `https://www.conduktor.io/kafka/starting-kafka`
+    - FAQ common setup problems
+  * Mac os x - download
+    - why to set path variable 4:30
+    - 1 broker & 1 zookeeper in development
+    - https://www.conduktor.io/kafka/how-to-install-apache-kafka-on-mac
+
+* starting kafka without zookeeper
+  - Starting Kafka without Zookeeper (KRaft mode)
+
+* CLI
+  -
