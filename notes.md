@@ -130,7 +130,7 @@
 
 * Zookeeper
   - Zookeeper manages brokers(keeps a list of them)
-  - Zookeeper helps in perfoeming leader election for partitions
+  - Zookeeper helps in performing leader election for partitions
   - zookeeper sends notifications to kafka in case of changes(e.g new topic, broker dies, broker comes up, delete topics, etc ...)
   - kafka 2.x can't work without zookeeper
   - kafka 3.x can work without zookeeper(KI-500) - using kafka raft instead(KRaft)
@@ -182,4 +182,25 @@
   - Starting Kafka without Zookeeper (KRaft mode)
 
 * CLI
-  -
+  * Kafka Topics cli
+    - base command `kafka-topics[.sh] --bootstrap-server localhost:9092`
+    - Create a Kafka topic
+    - List all Kafka topics
+      `$ kafka-topics --bootstrap-server localhost:9092 --list`
+    - Describe Kafka topics
+    - Increase Partitions in a kafka topic
+    - Delete Kafka topics
+    - using describe command
+    ```
+    Topic: second_topic	TopicId: FDSegjgnRi-Zk0ifKahQdQ	PartitionCount: 3	ReplicationFactor: 1	Configs: segment.bytes=1073741824
+        Topic: second_topic	Partition: 0	Leader: 0	Replicas: 0	Isr: 0
+	      Topic: second_topic	Partition: 1	Leader: 0	Replicas: 0	Isr: 0
+	      Topic: second_topic	Partition: 2	Leader: 0	Replicas: 0	Isr: 0
+    ```
+    - above leader represents broker id with 0
+
+  * Kafka Console Producer
+  * Kafka Console Consumer
+  * Kafka Consumer Groups
+  * Kafka Consumer Groups CLI
+  * Quiz
