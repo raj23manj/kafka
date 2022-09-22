@@ -206,7 +206,12 @@
       - if a topic is not found kafka creates a new topic, but ti will take some time to designate the leader and will face this error
       `[2022-09-22 16:54:43,612] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 4 : {new_topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)`
       - The produce will keep retrying to send the message until the leader is designated
+
   * Kafka Console Consumer
+    - Consume from tail of the topic
+    - Consume from the beginning of the topic
+    - Show both key and values in the output
+
   * Kafka Consumer Groups
   * Kafka Consumer Groups CLI
   * Quiz
