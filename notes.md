@@ -150,3 +150,15 @@
       - `Therefore, to be a great modern day kafka developer, never use zookeeper as a  configuration in your kafka clients, and other programs that connect to kafka.`
 
 * Kafka KRaft - Removing zookeeper
+  - in 2020, the Apache kafka project started to work to remove the zookeeper dependency from it(KIP-500)
+  - Zookeeper shows scaling issues when kafka clusters have > 100,000 partitions
+  - By removing Zookeeper, Apache Kafka can
+    - Scale to million of partitions and become easier to maintain and setup
+    - improve stability, makes it easier to monitor, support and administer
+    - Single security model for the whole system
+    - single process to start with kafka
+    - Faster controller shutdown and recovery time
+  - Kafka 3.x now implements the Raft protocol(Kraft) in order to replace Zookeeper
+    - Not production ready.
+      - https://github.com/apache/kafka/blob/trunk/config/kraft/README.md
+  - kraft-architecture.png
