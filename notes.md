@@ -1,6 +1,7 @@
 # https://www.conduktor.io/kafka
 # course order
   - order-sereis-to-read.png
+  - complete-kafka-zookeeper-architecture.png
 # Theory
 * Kafka is a pub/sub model
 * Topics, Partitions and offsets
@@ -162,3 +163,5 @@
     - Not production ready.
       - https://github.com/apache/kafka/blob/trunk/config/kraft/README.md
   - kraft-architecture.png
+* Theroy Round up
+ - complete-kafka-zookeeper-architecture.png
