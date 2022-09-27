@@ -272,4 +272,31 @@ Kafka’s streams api = The T in streaming ETL
         my-first-application
 
       ```
+
+  * Resetting offsets
+    - start/stop console consumer
+    - Reset offsets
+    - It resets the offsets on the kafka, and when the consumer is started again it reads all the messages from the beginning.
+    - we can read messages backward/forward `shift-by`
+
   * Quiz
+
+Kafka with Java:
+ - using gradel,
+ - Java producer callbacks
+   - Sticky Partitioner 8:00, if many messages are sent continuously, kafka is smart enough to put them in one partition
+ - incremental cooperative `Rebalance` & static group membership
+    - `patrition.assignment.strategy`
+    - Eager strategies(stop the world event, stop all the consumer groups for a while)
+      - RangeAssignor
+      - Round Robin
+      - sticky Assignor
+    - cooperative sticky assignor(new strategy and the best), does not stop. But assigns partition on the go.
+    - default assignor is(RangeAssignor, cooperative sticky assignor)
+    - kafka connect & streams : turned on by default using StreamPartitionAssignor
+  - Static Group Memebership(avoid rebalancing)
+    - By default, when a consumer leaves a group, its partitions are revoked and reassigned.
+    - If it joins back, it will have a new `member id` and new partition assigned
+    - if you specify `group.instance.id` it makes the consumer a static member
+    - Upon leaving, the consumer has up to `session.timeout.ms` to join back its partitions(else they will be re-assigned), without triggering a rebalance
+    - This is helpful when consumers maintain local stat and cache(to avoid rebuilding the cache)
